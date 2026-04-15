@@ -25,6 +25,7 @@ export const registerUser = async (req, res) => {
       profilePicture,
     });
 
+    console.log("user",user)
     res.status(201).json({ message: "User register successfully", user });
   } catch (error) {
     res.status(500).json({ error });

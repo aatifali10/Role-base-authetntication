@@ -1,21 +1,28 @@
 import mongoose, { Schema } from "mongoose";
 
-const authModel= new Schema({
-    name:String,
-    email:{
-        type:String,
-        unique:true
+const authModel = new Schema(
+  {
+    name: String,
+    email: {
+      type: String,
+      unique: true,
     },
-    password:{
-        type:String
+    password: {
+      type: String,
     },
-    role:{
-        type:String,
-        enum:["admin","attende","exhibitor"],
-        default:"attende"
+    role: {
+      type: String,
+      enum: ["admin", "attende", "exhibitor"],
+      default: "attende",
     },
-},{timestamps:true})
+    profilePicture: {
+      type: String,
+      default: null,
+    },
+  },
+  { timestamps: true },
+);
 
-const Auth = mongoose.model("auths",authModel);
+const Auth = mongoose.model("auths", authModel);
 
-export default Auth
+export default Auth;

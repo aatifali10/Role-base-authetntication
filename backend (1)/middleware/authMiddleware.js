@@ -1,22 +1,23 @@
 import jwt from "jsonwebtoken";
 import Auth from "../models/authModel.js";
 
-export const authMiddleware=async (req,res,next)=>{
-    try {
-        const token = req.headers.authorization;
+const JWT_SECRET = "abc";
 
-        if(!token){
-             return res.status(401).json({message:"No access token"})
-        }
+export const authMiddleware = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization;
 
-        const decoded= jwt.verify(token,"aptech");
-
-        const user =await Auth.findById(decoded.id);
-        req.user =user;
-
-        next()
-
-    } catch (error) {
-        return res.json({error})
+    if (!token) {
+      return res.status(401).json({ message: "No access token" });
     }
-}
+
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    const user = await Auth.findById(decoded.id);
+    req.user = user;
+
+    next();
+  } catch (error) {
+    return res.json({ error });
+  }
+};

@@ -5,7 +5,11 @@ const JWT_SECRET = "abc";
 
 export const authMiddleware = async (req, res, next) => {
   try {
-    const token = req.headers.authorization;
+    const authHeader = req.headers.authorization;
+    const token =
+      authHeader && authHeader.startsWith("Bearer ")
+        ? authHeader.split(" ")[1]
+        : authHeader;
 
     if (!token) {
       return res.status(401).json({ message: "No access token" });

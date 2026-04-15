@@ -15,12 +15,14 @@ export const registerUser = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const profilePicture = req.file ? `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}` : null;
 
     const user = await Auth.create({
       name,
       email,
       password: hashedPassword,
       role,
+      profilePicture,
     });
 
     res.status(201).json({ message: "User register successfully", user });

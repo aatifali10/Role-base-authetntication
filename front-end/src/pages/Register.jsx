@@ -10,14 +10,26 @@ const Register = () => {
         password:"",
         role:"attende"
     })
+    const [profilePicture, setProfilePicture] = useState(null)
     const dispatch= useDispatch()
     const navigate=useNavigate()
     const handleChange=(e)=>{
         setFormData({...formData,[e.target.name]:e.target.value})
     }
+    const handleFileChange=(e)=>{
+        setProfilePicture(e.target.files[0])
+    }
     const handleSubmit=(e)=>{
         e.preventDefault();
-        dispatch(register(formData))
+        const data = new FormData();
+        data.append('name', formData.name);
+        data.append('email', formData.email);
+        data.append('password', formData.password);
+        data.append('role', formData.role);
+        if(profilePicture){
+            data.append('profilePicture', profilePicture);
+        }
+        dispatch(register(data))
         navigate("/login")
     }
 
@@ -50,7 +62,10 @@ const Register = () => {
                 </option>
             </select>
         </div>
-        
+        <div className="flex items-center gap-4 my-2">
+            <label className='text-[20px] w-[20%]'>Profile Pic: </label>
+            <input type="file" accept="image/*" onChange={handleFileChange} className='w-[85%] rounded-lg'/>
+        </div>
         <h5>
             <Link to="/login">Already have an account</Link>
         </h5>
